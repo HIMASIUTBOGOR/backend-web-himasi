@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('enumerations', function (Blueprint $table) {
-            $table->uuid();
+            $table->uuid('id')->primary();
             $table->string('key');
             $table->string('value');
             $table->text('desc')->nullable();

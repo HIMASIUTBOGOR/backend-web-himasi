@@ -15,18 +15,21 @@ class EnumerationSeeder extends Seeder
     public function run(): void
     {
         Enumeration::create([
+            'id' => \Str::uuid(),
             'key' => 'article_category',
             'value' => 'Akademik',
             // 'desc' => 'User with full access to the system',
         ]);
 
         Enumeration::create([
+            'id' => \Str::uuid(),
             'key' => 'article_category',
             'value' => 'Event',
             // 'desc' => 'User with full access to the system',
         ]);
         
         Enumeration::create([
+            'id' => \Str::uuid(),
             'key' => 'article_category',
             'value' => 'Inovasi',
             // 'desc' => 'User with full access to the system',
