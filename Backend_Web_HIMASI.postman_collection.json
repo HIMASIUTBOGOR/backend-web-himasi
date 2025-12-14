@@ -1,0 +1,969 @@
+{
+	"info": {
+		"_postman_id": "himasi-backend-api-collection",
+		"name": "Backend Web HIMASI API",
+		"description": "Complete CRUD API collection for HIMASI Backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Activities",
+			"item": [
+				{
+					"name": "Get All Activities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/activities",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"activities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Activity by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/activities/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"activities",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Activity UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Activity",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "desc",
+									"value": "Sample activity description",
+									"type": "text"
+								},
+								{
+									"key": "upload_at",
+									"value": "2025-12-14",
+									"type": "text"
+								},
+								{
+									"key": "is_active",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/activities",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"activities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Activity",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_method",
+									"value": "PUT",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								},
+								{
+									"key": "desc",
+									"value": "Updated activity description",
+									"type": "text"
+								},
+								{
+									"key": "upload_at",
+									"value": "2025-12-14",
+									"type": "text"
+								},
+								{
+									"key": "is_active",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/activities/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"activities",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Activity UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Activity",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/activities/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"activities",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Activity UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Benefits",
+			"item": [
+				{
+					"name": "Get All Benefits",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/benefits",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"benefits"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Benefit by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/benefits/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"benefits",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Benefit UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Benefit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "photo",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "title",
+									"value": "Sample Benefit Title",
+									"type": "text"
+								},
+								{
+									"key": "desc",
+									"value": "Sample benefit description",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/benefits",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"benefits"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Benefit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_method",
+									"value": "PUT",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "Updated Benefit Title",
+									"type": "text"
+								},
+								{
+									"key": "desc",
+									"value": "Updated benefit description",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/benefits/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"benefits",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Benefit UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Benefit",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/benefits/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"benefits",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Benefit UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "News",
+			"item": [
+				{
+					"name": "Get All News",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/news",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"news"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get News by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/news/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"news",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "News UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create News",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "photo",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "title",
+									"value": "Sample News Title",
+									"type": "text"
+								},
+								{
+									"key": "desc",
+									"value": "Sample news description or content",
+									"type": "text"
+								},
+								{
+									"key": "author",
+									"value": "John Doe",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/news",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"news"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update News",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_method",
+									"value": "PUT",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "Updated News Title",
+									"type": "text"
+								},
+								{
+									"key": "desc",
+									"value": "Updated news description",
+									"type": "text"
+								},
+								{
+									"key": "author",
+									"value": "Jane Smith",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/news/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"news",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "News UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete News",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/news/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"news",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "News UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Departemens",
+			"item": [
+				{
+					"name": "Get All Departemens",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/departemens",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"departemens"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Departemen by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/departemens/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"departemens",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Departemen UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Departemen",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "icon",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "title",
+									"value": "Sample Departemen Title",
+									"type": "text"
+								},
+								{
+									"key": "desc",
+									"value": "Sample departemen description",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/departemens",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"departemens"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Departemen",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_method",
+									"value": "PUT",
+									"type": "text"
+								},
+								{
+									"key": "icon",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "Updated Departemen Title",
+									"type": "text"
+								},
+								{
+									"key": "desc",
+									"value": "Updated departemen description",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/departemens/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"departemens",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Departemen UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Departemen",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/departemens/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"departemens",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Departemen UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FAQs",
+			"item": [
+				{
+					"name": "Get All FAQs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/faqs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"faqs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get FAQ by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/faqs/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"faqs",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "FAQ UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create FAQ",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"What is HIMASI?\",\n    \"desc\": \"HIMASI is a student organization for Information Systems students.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/faqs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"faqs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update FAQ",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"What is HIMASI? (Updated)\",\n    \"desc\": \"HIMASI is a student organization for Information Systems students at Universitas Terbuka.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/faqs/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"faqs",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "FAQ UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete FAQ",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/faqs/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"faqs",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "FAQ UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Prokers",
+			"item": [
+				{
+					"name": "Get All Prokers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/prokers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"prokers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Proker by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/prokers/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"prokers",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Proker UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Proker",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "photo",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "title",
+									"value": "Sample Proker Title",
+									"type": "text"
+								},
+								{
+									"key": "desc",
+									"value": "Sample proker description",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/prokers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"prokers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Proker",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_method",
+									"value": "PUT",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "Updated Proker Title",
+									"type": "text"
+								},
+								{
+									"key": "desc",
+									"value": "Updated proker description",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/prokers/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"prokers",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Proker UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Proker",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/prokers/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"prokers",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Proker UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000/api",
+			"type": "string"
+		}
+	]
+}
