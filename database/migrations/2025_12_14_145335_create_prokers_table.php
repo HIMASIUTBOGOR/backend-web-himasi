@@ -12,11 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('prokers', function (Blueprint $table) {
-            $table->uuid();
+            $table->uuid('id')->primary();
             $table->string('photo');
             $table->string('title');
             $table->string('desc');
-            $table->string('');
             $table->softDeletes();
             $table->timestamps();
         });

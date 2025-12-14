@@ -1,8 +1,14 @@
 <?php
 
-use App\Http\Controllers\UserManagement\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\BenefitController;
+use App\Http\Controllers\DepartemenController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ProkerController;
+use App\Http\Controllers\UserManagement\AuthController;
 
 // Authenticated routes 
 Route::prefix('auth')->group(function () {
@@ -36,3 +42,10 @@ Route::middleware(['auth:sanctum', 'role:superadmin,admin'])->group(function () 
     Route::post('/users/{id}/role', [AuthController::class, 'assignRole']);
     Route::post('/roles/{id}/permissions', [AuthController::class, 'assignPermission']);
 });
+
+Route::apiResource('activities', ActivityController::class);
+Route::apiResource('benefits', BenefitController::class);
+Route::apiResource('news', NewsController::class);
+Route::apiResource('departemens', DepartemenController::class);
+Route::apiResource('faqs', FaqController::class);
+Route::apiResource('prokers', ProkerController::class);
