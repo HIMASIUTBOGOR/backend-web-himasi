@@ -11,9 +11,6 @@ use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
-
-
-
     public function signIn(Request $request)
     {
         $request->validate([
@@ -57,7 +54,7 @@ class AuthController extends Controller
         $allRoles = $userWithRelations->getRoleNames();
 
         return response()->json([
-            'user' => $userWithRelations,
+            'user' => $user,
             'roles' => $allRoles,
             'permissions' => $allPermissions->pluck('name')->toArray()
         ]);
