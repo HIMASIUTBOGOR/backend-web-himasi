@@ -53,10 +53,29 @@ class AuthController extends Controller
         $allPermissions = $userWithRelations->getAllPermissions();
         $allRoles = $userWithRelations->getRoleNames();
 
+        $permNames = $allPermissions->pluck('name');
+
+        // Build hierarchical menus filtered by user permissions; include public menus (permission_name null)
+        $menus = Menu::whereNull('parent_id')
+            ->with(['children' => function ($q) use ($permNames) {
+                $q->where(function ($qq) use ($permNames) {
+                    $qq->whereIn('permission_name', $permNames)
+                       ->orWhereNull('permission_name');
+                })
+                ->orderBy('order');
+            }])
+            ->where(function ($q) use ($permNames) {
+                $q->whereIn('permission_name', $permNames)
+                  ->orWhereNull('permission_name');
+            })
+            ->orderBy('order')
+            ->get();
+
         return response()->json([
             'user' => $user,
             'roles' => $allRoles,
-            'permissions' => $allPermissions->pluck('name')->toArray()
+            'permissions' => $allPermissions->pluck('name')->toArray(),
+            'menus' => $menus
         ]);
     }
 

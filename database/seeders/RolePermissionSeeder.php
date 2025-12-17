@@ -18,11 +18,26 @@ class RolePermissionSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         $permissions = [
+            'permission.view',
+            'permission.create',
+            'permission.edit',
+            'permission.delete',
+
+            'role.view',
+            'role.create',
+            'role.edit',
+            'role.delete',
+
+            'menu.view',
+            'menu.create',
+            'menu.edit',
+            'menu.delete',
+
             'user.view',
             'user.create',
             'user.edit',
             'user.delete',
-            'role.manage',
+
         ];
 
         foreach ($permissions as $permission) {
@@ -45,7 +60,25 @@ class RolePermissionSeeder extends Seeder
         ]);
 
         $admin->givePermissionTo([
-            'user.view'
+            'permission.view',
+            'permission.create',
+            'permission.edit',
+            'permission.delete',
+
+            'role.view',
+            'role.create',
+            'role.edit',
+            'role.delete',
+
+            'menu.view',
+            'menu.create',
+            'menu.edit',
+            'menu.delete',
+
+            'user.view',
+            'user.create',
+            'user.edit',
+            'user.delete',
         ]);
 
         $userSuperadmin = User::create([

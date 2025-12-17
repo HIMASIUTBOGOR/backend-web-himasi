@@ -18,25 +18,6 @@ Route::prefix('auth')->group(function () {
     Route::get('/me',[AuthController::class, 'me'])->middleware('auth:sanctum');
 });
 
-
-Route::middleware(['auth:sanctum'])->group(function () {
-    
-    Route::get('/roles/{id}/menus',[AuthController::class, 'assignMenuPermission']);
-    Route::get('/me/menus',[AuthController::class, 'myMenus']);
-
-    // Route::get('/users', function () {
-    //     return 'USER LIST';
-    // })->middleware('permission:user.view, menu.users.list');
-    // Route::post('/users', function () {
-    //     return 'CREATE USER';
-    // })->middleware('permission:user.create');
-    // Route::delete('/users/{id}', function () {
-    //     return 'DELETE USER';
-    // })->middleware('role:admin');
-});
-
-
-
 Route::middleware(['auth:sanctum'])->group(function () {
     // Management Permission
     Route::get('/permissions', [UserManagementController::class, 'permissions'])->middleware('permission:permission.view');
@@ -57,11 +38,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/user/{id}', [UserManagementController::class, 'deleteUser'])->middleware('permission:user.delete');
 
     // Menu Management
-    Route::get('/menus', [UserManagementController::class, 'menus']);
-    Route::post('/menu', [UserManagementController::class, 'storeMenu']);
-    Route::put('/menu/{id}', [UserManagementController::class, 'updateMenu']);
-    Route::delete('/menu/{id}', [UserManagementController::class, 'deleteMenu']);
-    
+    Route::get('/menus', [UserManagementController::class, 'menus'])->middleware('permission:menu.view');
+    Route::post('/menu', [UserManagementController::class, 'storeMenu'])->middleware('permission:menu.create');
+    Route::put('/menu/{id}', [UserManagementController::class, 'updateMenu'])->middleware('permission:menu.edit');
+    Route::delete('/menu/{id}', [UserManagementController::class, 'deleteMenu'])->middleware('permission:menu.delete');
 });
 
 Route::apiResource('activities', ActivityController::class);
