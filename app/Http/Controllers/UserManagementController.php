@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
+use App\Models\Menu;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -293,6 +294,111 @@ class UserManagementController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Role deleted successfully'
+        ], 200);
+    }
+
+    public function menus()
+    {
+        // Assuming you have a Menu model to fetch menus
+        $menus = Menu::with('children')->whereNull('parent_id')->orderBy('order')->get();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $menus
+        ], 200);
+    }
+
+    public function storeMenu(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'url' => 'required|string|max:255',
+            'icon' => 'nullable|string|max:100',
+            'parent_id' => 'nullable|exists:menus,id',
+            'permission_name' => 'nullable|string',
+            'order' => 'nullable|integer'
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            // Ensure permission exists if provided
+            if ($request->filled('permission_name')) {
+               
+                Permission::firstOrCreate([
+                    'name' => $request->permission_name,
+                    'guard_name' => "api"
+                ]);
+            }
+
+            $menu = Menu::create($request->all());
+
+            DB::commit();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Menu created successfully',
+                'data' => $menu
+            ], 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to create menu: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function updateMenu(Request $request, $id)
+    {
+        $menu = Menu::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'url' => 'required|string|max:255',
+            'icon' => 'nullable|string|max:100',
+            'parent_id' => 'nullable|exists:menus,id',
+            'permission_name' => 'nullable|string',
+            'order' => 'nullable|integer'
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $menu->update($validated);
+
+            // Ensure permission exists if provided
+            if ($request->filled('permission_name')) {
+                Permission::firstOrCreate([
+                    'name' => $request->permission_name,
+                    'guard_name' => "api"
+                ]);
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Menu updated successfully',
+                'data' => $menu
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to update menu: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function deleteMenu($id)
+    {
+        $menu = Menu::findOrFail($id);
+        $menu->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Menu deleted successfully'
         ], 200);
     }
 }

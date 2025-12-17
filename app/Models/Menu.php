@@ -2,20 +2,23 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Menu extends Model
 {
+    use HasUuids;
     protected $keyType = 'string';
     public $incrementing = false;
 
     protected $fillable = [
         'id',
         'name',
-        'slug',
+        'url',
         'permission_name',
         'parent_id',
-        'order'
+        'order',
+        'icon'
     ];
 
     public function parent()

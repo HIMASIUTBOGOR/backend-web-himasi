@@ -16,7 +16,7 @@ class MenuSeeder extends Seeder
         $dashboard = Menu::create([
             'id' => \Str::uuid(),
             'name' => 'Dashboard',
-            'slug' => 'dashboard',
+            'url' => '/dashboard',
             'permission_name' => 'menu.dashboard',
             'order' => 1
         ]);
@@ -24,7 +24,7 @@ class MenuSeeder extends Seeder
         $users = Menu::create([
             'id' => \Str::uuid(),
             'name' => 'Users',
-            'slug' => 'users',
+            'url' => '/dashboard/users',
             'permission_name' => 'menu.users',
             'order' => 2
         ]);
@@ -32,7 +32,7 @@ class MenuSeeder extends Seeder
         Menu::create([
             'id' => \Str::uuid(),
             'name' => 'User List',
-            'slug' => 'users.list',
+            'url' => '/dashboard/users',
             'permission_name' => 'menu.users.list',
             'parent_id' => $users->id,
             'order' => 1
@@ -41,7 +41,7 @@ class MenuSeeder extends Seeder
         Menu::create([
             'id' => \Str::uuid(),
             'name' => 'Create User',
-            'slug' => 'users.create',
+            'url' => '/dashboard/users/create',
             'permission_name' => 'menu.users.create',
             'parent_id' => $users->id,
             'order' => 2

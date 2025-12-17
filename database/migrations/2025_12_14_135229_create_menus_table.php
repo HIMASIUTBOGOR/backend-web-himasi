@@ -13,8 +13,9 @@ return new class extends Migration
     {
        Schema::create('menus', function (Blueprint $table) {
         $table->uuid('id')->primary();
+        $table->string('icon')->nullable();
         $table->string('name');
-        $table->string('slug'); // users, reports
+        $table->string('url'); // users, reports
         $table->string('permission_name')->nullable();
         $table->foreignUuid('parent_id')
             ->nullable()
