@@ -38,6 +38,20 @@ class RolePermissionSeeder extends Seeder
             'user.edit',
             'user.delete',
 
+            'menu.dashboard',
+            'menu.user.management',
+            'menu.user.permission',
+            'menu.user.role',
+            'menu.user.user',
+            'menu.user.menu',
+
+            'menu.cms',
+            'menu.cms.activities',
+            'menu.cms.benefits',
+            'menu.cms.news',
+            'menu.cms.departments',
+            'menu.cms.faq',
+            'menu.cms.proker',
         ];
 
         foreach ($permissions as $permission) {
@@ -79,6 +93,16 @@ class RolePermissionSeeder extends Seeder
             'user.create',
             'user.edit',
             'user.delete',
+
+            'menu.dashboard',
+
+            'menu.cms',
+            'menu.cms.activities',
+            'menu.cms.benefits',
+            'menu.cms.news',
+            'menu.cms.departments',
+            'menu.cms.faq',
+            'menu.cms.proker',
         ]);
 
         $userSuperadmin = User::create([
