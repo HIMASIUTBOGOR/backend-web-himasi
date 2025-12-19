@@ -140,12 +140,25 @@ class UserManagementController extends Controller
         ], 200);
     }
 
-    public function permissions()
+    public function permissions(Request $request)
     {
-        $data = Permission::all();
+        $limit = $request->input('limit', 10);
+        $search = $request->input('search', '');
+        $data = Permission::orderBy('name')
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->paginate($limit);
+
         return response()->json([
             'status' => 'success',
-            'data' => $data
+            'data' => $data->items(),
+            'meta' => [
+                'current_page' => $data->currentPage(),
+                'last_page' => $data->lastPage(),
+                'per_page' => $data->perPage(),
+                'total' => $data->total()
+            ]
         ]);
     }
 
