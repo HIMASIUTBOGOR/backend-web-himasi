@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('prokers', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('photo');
+            $table->foreignUuid('departemen_id')->constrained('departemens')->onDelete('cascade');
+            $table->string('photo')->nullable();
             $table->string('title');
             $table->string('desc');
+            $table->string('action_link')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });

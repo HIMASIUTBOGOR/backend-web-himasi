@@ -14,8 +14,16 @@ class Proker extends Model
     public $incrementing = false;
 
     protected $fillable = [
+        'departemen_id',
         'photo',
         'title',
-        'desc'
+        'desc',
+        'action_link',
+        'is_active',
     ];
+
+    public function departemen()
+    {
+        return $this->belongsTo(Departemen::class, 'departemen_id');
+    }
 }

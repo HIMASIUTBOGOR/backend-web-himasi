@@ -73,7 +73,7 @@ class MenuSeeder extends Seeder
         ]);
         Menu::create([
             'id' => \Str::uuid(),
-            'name' => 'kegiatan',
+            'name' => 'Kegiatan',
             'url' => '/cms/activities',
             'parent_id' => $cms->id,
             'permission_name' => 'menu.cms.activities',

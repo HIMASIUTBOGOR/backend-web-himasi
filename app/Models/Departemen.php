@@ -18,4 +18,9 @@ class Departemen extends Model
         'title',
         'desc'
     ];
+
+    public function prokers()
+    {
+        return $this->hasMany(Proker::class, 'departemen_id');
+    }
 }

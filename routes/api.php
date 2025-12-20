@@ -91,6 +91,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('/content/activities', [ActivityController::class, 'landingIndex']);
 Route::get('/content/benefits', [BenefitController::class, 'landingIndex']);
 Route::get('/content/departments', [DepartemenController::class, 'landingIndex']);
+Route::get('/content/prokers', [ProkerController::class, 'landingIndex']);
 
 
 // Route::apiResource('activities', ActivityController::class);
