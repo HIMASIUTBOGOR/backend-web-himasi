@@ -68,10 +68,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/news/{id}', [NewsController::class, 'destroy'])->middleware('permission:cms.news.delete');
 
     // Departemen  AKA Department
-    Route::get('/departemens', [DepartemenController::class, 'index'])->middleware('permission:cms.departemen.view');
-    Route::post('/departemen', [DepartemenController::class, 'store'])->middleware('permission:cms.departemen.create');
-    Route::put('/departemen/{id}', [DepartemenController::class, 'update'])->middleware('permission:cms.departemen.edit');
-    Route::delete('/departemen/{id}', [DepartemenController::class, 'destroy'])->middleware('permission:cms.departemen.delete');
+    Route::get('/departments', [DepartemenController::class, 'index'])->middleware('permission:cms.departemen.view');
+    Route::post('/department', [DepartemenController::class, 'store'])->middleware('permission:cms.departemen.create');
+    Route::put('/department/{id}', [DepartemenController::class, 'update'])->middleware('permission:cms.departemen.edit');
+    Route::delete('/department/{id}', [DepartemenController::class, 'destroy'])->middleware('permission:cms.departemen.delete');
 
     // FAQ  AKA Frequently Asked Questions
     Route::get('/faqs', [FaqController::class, 'index'])->middleware('permission:cms.faq.view');
@@ -90,6 +90,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // Content Landing Page
 Route::get('/content/activities', [ActivityController::class, 'landingIndex']);
 Route::get('/content/benefits', [BenefitController::class, 'landingIndex']);
+Route::get('/content/departments', [DepartemenController::class, 'landingIndex']);
 
 
 // Route::apiResource('activities', ActivityController::class);
