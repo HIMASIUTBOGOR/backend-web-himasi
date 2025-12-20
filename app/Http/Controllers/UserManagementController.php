@@ -13,12 +13,22 @@ use Spatie\Permission\Models\Permission;
 class UserManagementController extends Controller
 {
 
-    public function users()
+    public function users(Request $request)
     {
-        $users = User::with('roles.permissions')->orderBy('updated_at', 'desc')->get();
+        $limit = $request->input('limit', 10);
+        $search = $request->input('search', '');
+        $users = User::with('roles.permissions')->orderBy('updated_at', 'desc')->when($search, function ($query, $search) {
+                return $query->where('name', 'like', '%' . $search . '%');
+            })->paginate($limit);
         return response()->json([
             'status' => 'success',
-            'data' => UserResource::collection($users)
+            'data' => UserResource::collection($users->items()),
+            'meta' => [
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+                'per_page' => $users->perPage(),
+                'total' => $users->total()
+            ]
         ],200);
     }
 
@@ -213,12 +223,24 @@ class UserManagementController extends Controller
     }
 
 
-    public function roles()
+    public function roles(Request $request)
     {
-        $roles = \Spatie\Permission\Models\Role::with('permissions')->get();
+        $limit = $request->input('limit', 10);
+        $search = $request->input('search', '');
+        $roles = \Spatie\Permission\Models\Role::orderBy('name')
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->paginate($limit);
         return response()->json([
             'status' => 'success',
-            'data' => $roles
+            'data' => $roles->items(),
+            'meta' => [
+                'current_page' => $roles->currentPage(),
+                'last_page' => $roles->lastPage(),
+                'per_page' => $roles->perPage(),
+                'total' => $roles->total()
+            ]
         ]);
     }
 

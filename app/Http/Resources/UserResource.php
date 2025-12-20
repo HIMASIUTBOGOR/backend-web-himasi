@@ -21,6 +21,8 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'jabatan_id' => $this->jabatan_id,
             'avatar' => $this->avatar,
+            'role' => $this->roles->first()?->name,
+            'jabatan' => $this->jabatan_id ? $this->jabatan->value : null,
             'roles' => $this->whenLoaded('roles'),
             'permissions' => $this->whenLoaded('permissions'),
         ];

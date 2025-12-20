@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\BenefitController;
 use App\Http\Controllers\DepartemenController;
+use App\Http\Controllers\EnumerationController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProkerController;
@@ -42,7 +43,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/menu', [UserManagementController::class, 'storeMenu'])->middleware('permission:menu.create');
     Route::put('/menu/{id}', [UserManagementController::class, 'updateMenu'])->middleware('permission:menu.edit');
     Route::delete('/menu/{id}', [UserManagementController::class, 'deleteMenu'])->middleware('permission:menu.delete');
+
+    // Enumeration Management
 });
+    Route::get('/enumerations', [EnumerationController::class, 'enumerations']);
 
 Route::apiResource('activities', ActivityController::class);
 Route::apiResource('benefits', BenefitController::class);
