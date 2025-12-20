@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\cms\ActivityResource;
 use App\Models\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -12,14 +13,27 @@ class ActivityController extends Controller
     /**
      * Display a listing of activities.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $activities = Activity::orderBy('created_at', 'desc')->get();
+        $limit = $request->input('limit', 10);
+        $search = $request->input('search', '');
+        // Get all activities
+        $activities = Activity::orderBy('created_at', 'desc')
+            ->when($search, function ($query, $search) {
+                return $query->where('desc', 'like', '%' . $search . '%');
+            })
+            ->paginate($limit);
         
         return response()->json([
             'success' => true,
             'message' => 'List data activities',
-            'data' => $activities
+            'data' => ActivityResource::collection($activities->items()),
+            'meta' => [
+                'current_page' => $activities->currentPage(),
+                'last_page' => $activities->lastPage(),
+                'per_page' => $activities->perPage(),
+                'total' => $activities->total()
+            ]
         ], 200);
     }
 
@@ -29,7 +43,7 @@ class ActivityController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:102400', // 100 MB
             'desc' => 'required|string|max:255',
             'upload_at' => 'required|date',
             'is_active' => 'required|boolean'
@@ -97,7 +111,7 @@ class ActivityController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:102400', // 100 MB
             'desc' => 'required|string|max:255',
             'upload_at' => 'required|date',
             'is_active' => 'required|boolean'
@@ -159,6 +173,21 @@ class ActivityController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Activity deleted successfully'
+        ], 200);
+    }
+
+
+    public function landingIndex()
+    {
+        // Get all active activities
+        $activities = Activity::where('is_active', true)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'List of active activities for landing page',
+            'data' => ActivityResource::collection($activities)
         ], 200);
     }
 }

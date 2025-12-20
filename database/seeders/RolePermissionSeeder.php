@@ -52,6 +52,37 @@ class RolePermissionSeeder extends Seeder
             'menu.cms.departments',
             'menu.cms.faq',
             'menu.cms.proker',
+
+            'cms.activity.view',
+            'cms.activity.create',
+            'cms.activity.edit',
+            'cms.activity.delete',
+
+            'cms.benefit.view',
+            'cms.benefit.create',
+            'cms.benefit.edit',
+            'cms.benefit.delete',
+
+            'cms.news.view',
+            'cms.news.create',
+            'cms.news.show',
+            'cms.news.edit',
+            'cms.news.delete',
+
+            'cms.departemen.view',
+            'cms.departemen.create',
+            'cms.departemen.edit',
+            'cms.departemen.delete',
+
+            'cms.faq.view',
+            'cms.faq.create',
+            'cms.faq.edit',
+            'cms.faq.delete',
+
+            'cms.proker.view',
+            'cms.proker.create',
+            'cms.proker.edit',
+            'cms.proker.delete',
         ];
 
         foreach ($permissions as $permission) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\cms\BenefitResource;
 use App\Models\Benefit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -12,14 +13,27 @@ class BenefitController extends Controller
     /**
      * Display a listing of benefits.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $benefits = Benefit::orderBy('created_at', 'desc')->get();
+        $limit = $request->input('limit', 10);
+        $search = $request->input('search', '');
+        $benefits = Benefit::orderBy('created_at', 'desc')
+            ->when($search, function ($query, $search) {
+                return $query->where('title', 'like', '%' . $search . '%')
+                             ->orWhere('desc', 'like', '%' . $search . '%');
+            })
+            ->paginate($limit);
         
         return response()->json([
             'success' => true,
             'message' => 'List data benefits',
-            'data' => $benefits
+            'data' => BenefitResource::collection($benefits->items()),
+            'meta' => [
+                'current_page' => $benefits->currentPage(),
+                'last_page' => $benefits->lastPage(),
+                'per_page' => $benefits->perPage(),
+                'total' => $benefits->total()
+            ]
         ], 200);
     }
 
@@ -29,7 +43,7 @@ class BenefitController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:102400',
             'title' => 'required|string|max:255',
             'desc' => 'required|string'
         ]);
@@ -95,7 +109,7 @@ class BenefitController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:102400',
             'title' => 'required|string|max:255',
             'desc' => 'required|string'
         ]);
@@ -155,6 +169,17 @@ class BenefitController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Benefit deleted successfully'
+        ], 200);
+    }
+
+    public function landingIndex()
+    {
+        $benefits = Benefit::orderBy('created_at', 'desc')->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'List data benefits for landing page',
+            'data' => BenefitResource::collection($benefits)
         ], 200);
     }
 }
