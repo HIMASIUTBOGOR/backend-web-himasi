@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\RoleResource;
 use App\Http\Resources\UserResource;
 use App\Models\Menu;
 use App\Models\User;
@@ -154,9 +155,16 @@ class UserManagementController extends Controller
     {
         $limit = $request->input('limit', 10);
         $search = $request->input('search', '');
+        $type = $request->input('type', '');
         $data = Permission::orderBy('name')
             ->when($search, function ($query, $search) {
                 return $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->when($type === 'no-menu', function ($query) {
+                return $query->where(function ($q) {
+                    $q->where('name', 'not like', 'menu.%')
+                      ->orWhereIn('name', ['menu.view', 'menu.create', 'menu.edit', 'menu.delete']);
+                });
             })
             ->paginate($limit);
 
@@ -234,7 +242,7 @@ class UserManagementController extends Controller
             ->paginate($limit);
         return response()->json([
             'status' => 'success',
-            'data' => $roles->items(),
+            'data' => RoleResource::collection($roles->items()),
             'meta' => [
                 'current_page' => $roles->currentPage(),
                 'last_page' => $roles->lastPage(),
@@ -250,7 +258,7 @@ class UserManagementController extends Controller
             'name' => ['required', Rule::unique('roles', 'name')],
             'guard_name' => 'required',
             'permissions' => 'nullable|array',
-            'permissions.*' => 'integer|exists:permissions,id'
+            'permissions.*' => 'string|exists:permissions,name'
         ]);
 
         try {
@@ -263,7 +271,7 @@ class UserManagementController extends Controller
 
             // Attach permissions to role
             if ($request->has('permissions') && !empty($request->permissions)) {
-                $role->permissions()->attach($request->permissions);
+                $role->syncPermissions($request->permissions);
             }
 
             DB::commit();
@@ -290,7 +298,7 @@ class UserManagementController extends Controller
             'name' => ['required', Rule::unique('roles', 'name')->ignore($role->id)],
             'guard_name' => 'required',
             'permissions' => 'nullable|array',
-            'permissions.*' => 'integer|exists:permissions,id'
+            'permissions.*' => 'string|exists:permissions,name'
         ]);
 
         try {
@@ -302,7 +310,7 @@ class UserManagementController extends Controller
 
             // Sync permissions to role
             if ($request->has('permissions')) {
-                $role->permissions()->sync($request->permissions);
+                $role->syncPermissions($request->permissions);
             }
 
             DB::commit();
@@ -332,14 +340,23 @@ class UserManagementController extends Controller
         ], 200);
     }
 
-    public function menus()
+    public function menus(Request $request)
     {
+        $limit = $request->input('limit', 10);
+        $search = $request->input('search', '');
+
         // Assuming you have a Menu model to fetch menus
-        $menus = Menu::with('children')->whereNull('parent_id')->orderBy('order')->get();
+        $menus = Menu::with('children')->whereNull('parent_id')->when($search, function ($query, $search) { return $query->where('name', 'like', '%' . $search . '%'); })->orderBy('order')->paginate($limit);
 
         return response()->json([
             'status' => 'success',
-            'data' => $menus
+            'data' => $menus->items(),
+            'meta' => [
+                'current_page' => $menus->currentPage(),
+                'last_page' => $menus->lastPage(),
+                'per_page' => $menus->perPage(),
+                'total' => $menus->total()
+            ]
         ], 200);
     }
 
