@@ -9,4 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Enumeration extends Model
 {
     use SoftDeletes, HasUuids;
+
+    protected $guarded = ['id'];
 }

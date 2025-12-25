@@ -45,7 +45,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/menu/{id}', [UserManagementController::class, 'deleteMenu'])->middleware('permission:menu.delete');
 
     // Enumeration Management
-    Route::get('/enumerations', [EnumerationController::class, 'enumerations']);
+    Route::get('/enumerations', [EnumerationController::class, 'index'])->middleware('permission:enumeration.view');    
+    Route::get('/enumeration/byKey', [EnumerationController::class, 'enumerations'])->middleware('permission:enumeration.byKey');
+    Route::post('/enumeration', [EnumerationController::class, 'storeEnumeration'])->middleware('permission:enumeration.create');
+    Route::put('/enumeration/{id}', [EnumerationController::class, 'updateEnumeration'])->middleware('permission:enumeration.edit');
+    Route::delete('/enumeration/{id}', [EnumerationController::class, 'deleteEnumeration'])->middleware('permission:enumeration.delete');
 
     // Content Manamgement System
     // Activity  AKA Kegiatan
@@ -63,7 +67,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // News  AKA Berita
     Route::get('/news', [NewsController::class, 'index'])->middleware('permission:cms.news.view');
     Route::post('/news', [NewsController::class, 'store'])->middleware('permission:cms.news.create');
-    Route::get('/news/{id}', [NewsController::class, 'store'])->middleware('permission:cms.news.show');
+    Route::get('/news/{id}', [NewsController::class, 'show'])->middleware('permission:cms.news.show');
     Route::put('/news/{id}', [NewsController::class, 'update'])->middleware('permission:cms.news.edit');
     Route::delete('/news/{id}', [NewsController::class, 'destroy'])->middleware('permission:cms.news.delete');
 
@@ -92,6 +96,7 @@ Route::get('/content/activities', [ActivityController::class, 'landingIndex']);
 Route::get('/content/benefits', [BenefitController::class, 'landingIndex']);
 Route::get('/content/departments', [DepartemenController::class, 'landingIndex']);
 Route::get('/content/prokers', [ProkerController::class, 'landingIndex']);
+Route::get('/content/news', [NewsController::class, 'landingIndex']);
 
 
 // Route::apiResource('activities', ActivityController::class);

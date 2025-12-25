@@ -22,14 +22,48 @@ class MenuSeeder extends Seeder
             'icon' => 'material-symbols:dashboard'
         ]);
 
+        $master = Menu::create([
+            'id' => \Str::uuid(),
+            'name' => 'Master Data',
+            'url' => '#',
+            'permission_name' => 'menu.master',
+            'order' => 2,
+            'icon' => 'eos-icons:master-outlined'
+        ]);
+        Menu::create([
+            'id' => \Str::uuid(),
+            'name' => 'Enumeration',
+            'url' => '/master/enumeration',
+            'parent_id' => $master->id,
+            'permission_name' => 'menu.master.enumeration',
+            'order' => 1
+        ]);
+        Menu::create([
+            'id' => \Str::uuid(),
+            'name' => 'Department',
+            'url' => '/master/department',
+            'parent_id' => $master->id,
+            'permission_name' => 'menu.master.department',
+            'order' => 2
+        ]);
+
+          Menu::create([
+            'id' => \Str::uuid(),
+            'name' => 'Proker',
+            'url' => '/master/proker',
+            'parent_id' => $master->id,
+            'permission_name' => 'menu.master.proker',
+            'order' => 3
+        ]);
         $users = Menu::create([
             'id' => \Str::uuid(),
             'name' => 'User Management',
             'url' => '#',
             'permission_name' => 'menu.user.management',
-            'order' => 2,
+            'order' => 3,
             'icon' => 'ix:user-management-filled'
         ]);
+
         Menu::create([
             'id' => \Str::uuid(),
             'name' => 'Permission',
@@ -68,7 +102,7 @@ class MenuSeeder extends Seeder
             'name' => 'Content Management',
             'url' => '#',
             'permission_name' => 'menu.cms',
-            'order' => 3,
+            'order' => 4,
             'icon' => 'streamline-ultimate-color:layout-dashboard'
         ]);
         Menu::create([
@@ -95,29 +129,14 @@ class MenuSeeder extends Seeder
             'permission_name' => 'menu.cms.news',
             'order' => 3
         ]);
-        Menu::create([
-            'id' => \Str::uuid(),
-            'name' => 'Departemen',
-            'url' => '/cms/departments',
-            'parent_id' => $cms->id,
-            'permission_name' => 'menu.cms.departments',
-            'order' => 4
-        ]);
+      
         Menu::create([
             'id' => \Str::uuid(),
             'name' => 'FAQ',
             'url' => '/cms/faq',
             'parent_id' => $cms->id,
             'permission_name' => 'menu.cms.faq',
-            'order' => 5
-        ]);
-        Menu::create([
-            'id' => \Str::uuid(),
-            'name' => 'Proker',
-            'url' => '/cms/proker',
-            'parent_id' => $cms->id,
-            'permission_name' => 'menu.cms.proker',
-            'order' => 6
+            'order' => 4
         ]);
     }
 }

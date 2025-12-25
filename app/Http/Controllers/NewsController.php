@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\cms\NewsResource;
 use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -12,14 +13,28 @@ class NewsController extends Controller
     /**
      * Display a listing of news.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $news = News::orderBy('created_at', 'desc')->get();
+        $limit = $request->query('limit', 10);
+        $search = $request->query('search');
+
+        $news = News::orderBy('created_at', 'desc')
+            ->when($search, function ($query, $search) {
+                return $query->where('title', 'like', '%' . $search . '%')
+                             ->orWhere('desc', 'like', '%' . $search . '%');
+            })
+            ->paginate($limit);
         
         return response()->json([
             'success' => true,
             'message' => 'List data news',
-            'data' => $news
+            'data' => NewsResource::collection($news->items()),
+            'meta' => [
+                'current_page' => $news->currentPage(),
+                'last_page' => $news->lastPage(),
+                'per_page' => $news->perPage(),
+                'total' => $news->total()
+            ]
         ], 200);
     }
 
@@ -32,8 +47,12 @@ class NewsController extends Controller
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'title' => 'required|string|max:255',
             'desc' => 'required|string',
+            'published_at' => 'nullable|date',
+            'is_active' => 'nullable|boolean',
+            'category_id' => 'required|exists:enumerations,id',
             'author' => 'required|string|max:255'
         ]);
+
 
         if ($validator->fails()) {
             return response()->json([
@@ -50,8 +69,12 @@ class NewsController extends Controller
         $news = News::create([
             'photo' => $photoPath,
             'title' => $request->title,
+            'slug' => \Str::slug($request->title),
             'desc' => $request->desc,
-            'author' => $request->author
+            'category_id' => $request->category_id,
+            'author' => $request->author,
+            'published_at' => $request->published_at,
+            'is_active' => $request->is_active ?? false
         ]);
 
         return response()->json([
@@ -78,7 +101,7 @@ class NewsController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'News detail',
-            'data' => $news
+            'data' => new NewsResource($news),
         ], 200);
     }
 
@@ -100,6 +123,9 @@ class NewsController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'title' => 'required|string|max:255',
             'desc' => 'required|string',
+            'published_at' => 'nullable|date',
+            'is_active' => 'nullable|boolean',
+            'category_id' => 'required|exists:enumerations,id',
             'author' => 'required|string|max:255'
         ]);
 
@@ -125,7 +151,11 @@ class NewsController extends Controller
 
         $news->title = $request->title;
         $news->desc = $request->desc;
+        $news->slug = \Str::slug($request->title);
         $news->author = $request->author;
+        $news->category_id = $request->category_id;
+        $news->published_at = $request->published_at;
+        $news->is_active = $request->is_active ?? $news->is_active;
         $news->save();
 
         return response()->json([
@@ -159,6 +189,28 @@ class NewsController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'News deleted successfully'
+        ], 200);
+    }
+
+    public function landingIndex(Request $request)
+    {
+        $limit = $request->query('limit', 6);
+
+        $news = News::where('is_active', true)
+            ->where('published_at', '<=', now())
+            ->orderBy('published_at', 'desc')
+            ->paginate($limit)->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'List of active news for landing page',
+            'data' => NewsResource::collection($news->items),
+            'meta' => [
+                'total' => $news->count(),
+                'per_page' => $limit,
+                'current_page' => 1,
+                'last_page' => ceil($news->count() / $limit)
+            ]
         ], 200);
     }
 }

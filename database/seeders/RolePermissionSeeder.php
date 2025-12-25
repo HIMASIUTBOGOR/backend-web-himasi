@@ -23,6 +23,11 @@ class RolePermissionSeeder extends Seeder
             'permission.edit',
             'permission.delete',
 
+            'enumeration.view',
+            'enumeration.create',
+            'enumeration.edit',
+            'enumeration.delete',
+
             'role.view',
             'role.create',
             'role.edit',
@@ -44,6 +49,11 @@ class RolePermissionSeeder extends Seeder
             'menu.user.role',
             'menu.user.user',
             'menu.user.menu',
+
+            'menu.master',
+            'menu.master.enumeration',
+            'menu.master.department',
+            'menu.master.proker',
 
             'menu.cms',
             'menu.cms.activities',
@@ -110,6 +120,11 @@ class RolePermissionSeeder extends Seeder
             'permission.edit',
             'permission.delete',
 
+            'enumeration.view',
+            'enumeration.create',
+            'enumeration.edit',
+            'enumeration.delete',
+
             'role.view',
             'role.create',
             'role.edit',
@@ -126,6 +141,11 @@ class RolePermissionSeeder extends Seeder
             'user.delete',
 
             'menu.dashboard',
+
+            'menu.master',
+            'menu.master.enumeration',
+            'menu.master.department',
+            'menu.master.proker',
 
             'menu.cms',
             'menu.cms.activities',
