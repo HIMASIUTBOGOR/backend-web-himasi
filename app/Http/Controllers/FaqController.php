@@ -11,14 +11,27 @@ class FaqController extends Controller
     /**
      * Display a listing of faqs.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $faqs = Faq::orderBy('created_at', 'desc')->get();
+        $limit = $request->query('limit', 10);
+        $search = $request->query('search', '');
+        $faqs = Faq::orderBy('created_at', 'desc')
+            ->when($search, function ($query, $search) {
+                return $query->where('title', 'like', "%{$search}%")
+                             ->orWhere('desc', 'like', "%{$search}%");
+            })
+            ->paginate($limit);
         
         return response()->json([
             'success' => true,
             'message' => 'List data faqs',
-            'data' => $faqs
+            'data' => $faqs->items(),
+            'meta' => [
+                'current_page' => $faqs->currentPage(),
+                'last_page' => $faqs->lastPage(),
+                'per_page' => $faqs->perPage(),
+                'total' => $faqs->total(),
+            ]
         ], 200);
     }
 
