@@ -9,6 +9,7 @@ use App\Http\Controllers\EnumerationController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProkerController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\UserManagement\AuthController;
 use App\Http\Controllers\UserManagementController;
 
@@ -90,6 +91,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/proker/{id}', [ProkerController::class, 'destroy'])->middleware('permission:cms.proker.delete');
 });
 
+// registration
+Route::post('/registration', [RegistrationController::class, 'store']);
 
 // Content Landing Page
 Route::get('/content/activities', [ActivityController::class, 'landingIndex']);
