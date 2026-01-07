@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AspirationController;
 use App\Http\Controllers\BenefitController;
 use App\Http\Controllers\DepartemenController;
 use App\Http\Controllers\FaqController;
@@ -19,3 +20,4 @@ Route::apiResource('news', NewsController::class);
 Route::apiResource('departemens', DepartemenController::class);
 Route::apiResource('faqs', FaqController::class);
 Route::apiResource('prokers', ProkerController::class);
+Route::apiResource('aspirations', AspirationController::class);
