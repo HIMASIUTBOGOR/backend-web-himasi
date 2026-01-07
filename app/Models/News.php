@@ -17,6 +17,15 @@ class News extends Model
         'photo',
         'title',
         'desc',
-        'author'
+        'author',
+        'published_at',
+        'is_active',
+        'slug',
+        'category_id'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Enumeration::class, 'category_id');
+    }
 }

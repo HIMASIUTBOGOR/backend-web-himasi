@@ -6,9 +6,15 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Enumeration extends Model
+class Registration extends Model
 {
     use SoftDeletes, HasUuids;
-
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'fullname',
+        'nim',
+        'semester',
+        'no_wa',
+        'department_id',
+        'reason',
+    ];
 }

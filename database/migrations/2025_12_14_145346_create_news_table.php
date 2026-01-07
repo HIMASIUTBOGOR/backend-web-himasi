@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('photo');
+             $table->foreignUuid('category_id')->constrained('enumerations')->onDelete('cascade');
+            $table->string('photo')->nullable();
             $table->string('title');
-            $table->string('desc');
+            $table->string('slug')->unique();
+            $table->longText('desc');
             $table->string('author');
+            $table->timestamp('published_at')->nullable();
+            $table->boolean('is_active')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

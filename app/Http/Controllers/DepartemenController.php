@@ -12,14 +12,27 @@ class DepartemenController extends Controller
     /**
      * Display a listing of departemens.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $departemens = Departemen::orderBy('created_at', 'desc')->get();
-        
+        $limit = $request->input('limit', 10);
+        $search = $request->input('search', '');
+        $departemens = Departemen::orderBy('created_at', 'desc')->
+            when($search, function ($query, $search) {
+                return $query->where('title', 'like', '%' . $search . '%')
+                             ->orWhere('desc', 'like', '%' . $search . '%');
+            })
+            ->paginate($limit);
+    
         return response()->json([
             'success' => true,
             'message' => 'List data departemens',
-            'data' => $departemens
+            'data' => $departemens->items(),
+            'meta' => [
+                'current_page' => $departemens->currentPage(),
+                'last_page' => $departemens->lastPage(),
+                'per_page' => $departemens->perPage(),
+                'total' => $departemens->total()
+            ]
         ], 200);
     }
 
@@ -29,7 +42,7 @@ class DepartemenController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'icon' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'icon' => 'required|string',
             'title' => 'required|string|max:255',
             'desc' => 'required|string'
         ]);
@@ -42,12 +55,8 @@ class DepartemenController extends Controller
             ], 422);
         }
 
-        // Upload icon
-        $icon = $request->file('icon');
-        $iconPath = $icon->store('departemens', 'public');
-
         $departemen = Departemen::create([
-            'icon' => $iconPath,
+            'icon' => $request->icon,
             'title' => $request->title,
             'desc' => $request->desc
         ]);
@@ -95,7 +104,7 @@ class DepartemenController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'icon' => 'required|string',
             'title' => 'required|string|max:255',
             'desc' => 'required|string'
         ]);
@@ -108,18 +117,7 @@ class DepartemenController extends Controller
             ], 422);
         }
 
-        // Update icon if provided
-        if ($request->hasFile('icon')) {
-            // Delete old icon
-            if ($departemen->icon && Storage::disk('public')->exists($departemen->icon)) {
-                Storage::disk('public')->delete($departemen->icon);
-            }
-
-            $icon = $request->file('icon');
-            $iconPath = $icon->store('departemens', 'public');
-            $departemen->icon = $iconPath;
-        }
-
+        $departemen->icon = $request->icon;
         $departemen->title = $request->title;
         $departemen->desc = $request->desc;
         $departemen->save();
@@ -155,6 +153,17 @@ class DepartemenController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Departemen deleted successfully'
+        ], 200);
+    }
+
+    public function landingIndex()
+    {
+        $departemens = Departemen::orderBy('title', 'asc')->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'List data departemens for landing page',
+            'data' => $departemens
         ], 200);
     }
 }
