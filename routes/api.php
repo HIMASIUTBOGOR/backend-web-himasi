@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\AspirationController;
 use App\Http\Controllers\BenefitController;
 use App\Http\Controllers\DepartemenController;
 use App\Http\Controllers\EnumerationController;
@@ -102,10 +103,10 @@ Route::get('/content/prokers', [ProkerController::class, 'landingIndex']);
 Route::get('/content/news', [NewsController::class, 'landingIndex']);
 Route::get('/content/faqs', [FaqController::class, 'index']);
 
-
-// Route::apiResource('activities', ActivityController::class);
-// Route::apiResource('benefits', BenefitController::class);
-// Route::apiResource('news', NewsController::class);
-// Route::apiResource('departemens', DepartemenController::class);
-// Route::apiResource('faqs', FaqController::class);
-// Route::apiResource('prokers', ProkerController::class);
+Route::apiResource('activities', ActivityController::class);
+Route::apiResource('benefits', BenefitController::class);
+Route::apiResource('news', NewsController::class);
+Route::apiResource('departemens', DepartemenController::class);
+Route::apiResource('faqs', FaqController::class);
+Route::apiResource('prokers', ProkerController::class);
+Route::apiResource('aspirations', AspirationController::class);
