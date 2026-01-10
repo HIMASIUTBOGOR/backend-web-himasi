@@ -90,6 +90,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/proker', [ProkerController::class, 'store'])->middleware('permission:cms.proker.create');
     Route::put('/proker/{id}', [ProkerController::class, 'update'])->middleware('permission:cms.proker.edit');
     Route::delete('/proker/{id}', [ProkerController::class, 'destroy'])->middleware('permission:cms.proker.delete');
+
+    // Registration Management
+    Route::get('/registrations', [RegistrationController::class, 'index'])->middleware('permission:registration.view');
+    Route::get('/registration/exportPdfAll', [RegistrationController::class, 'exportPdfAll'])->middleware('permission:registration.exportPdfAll');
+    Route::get('/registration/exportPdf/{id}', [RegistrationController::class, 'exportPdf'])->middleware('permission:registration.exportPdf');
+    Route::delete('/registration/{id}', [RegistrationController::class, 'destroy'])->middleware('permission:registration.delete');
 });
 
 // registration

@@ -17,4 +17,9 @@ class Registration extends Model
         'department_id',
         'reason',
     ];
+
+    public function department()
+    {
+        return $this->belongsTo(Departemen::class, 'department_id');
+    }
 }
